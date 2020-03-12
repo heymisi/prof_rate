@@ -1,26 +1,30 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prof } from './prof.model';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-//import { SubjectService } from 'src/subject/Subject.service';
+import { Model, Types } from 'mongoose';
 
 @Injectable()
 export class ProfService {
     constructor(
         @InjectModel('Prof') private readonly profModel: Model<Prof>) { }
 
-    //private subjectService : SubjectService;
-
     async insertProf(name: string, rate: number) {
         const newProf = new this.profModel({ name, rate });
-        newProf.subjects = [];
         const result = await newProf.save();
         return result;
     }
 
     async getProfs() {
-        const profs = await this.profModel.find().exec();
-        return profs.map((prof) => ({ id: prof.id, name: prof.name, rate: prof.rate, subjs: prof.subjects }));
+        const profs = await this.profModel
+        .find()
+        .populate('subjects')
+        .exec();
+        return profs.map(
+            (prof) => ({ 
+                id: prof.id, 
+                name: prof.name, 
+                rate: prof.rate, 
+                subjects: prof.subjects }));
     }
 
     async getSingleProf(profId: string) {
@@ -28,7 +32,7 @@ export class ProfService {
         return { _id: prof.id, name: prof.name, rate: prof.rate, subjects: prof.subjects };
     }
 
-    async updateProf(profId: string, name: string, rate: number) {
+    async updateProf(profId: string, name: string, rate: number, subjects: string[]) {
         const updatedProf = await this.findProf(profId);
         if (name) {
             updatedProf.name = name;
@@ -36,6 +40,11 @@ export class ProfService {
         if (rate) {
             updatedProf.rate = rate;
         }
+        if (subjects) {
+            console.log(subjects);
+            updatedProf.subjects = subjects.map(subject => new Types.ObjectId(subject));
+        }
+        console.log(subjects);
         updatedProf.save();
     }
 
@@ -58,11 +67,4 @@ export class ProfService {
         }
         return prof;
     }
-
-    // async addSubjectToProf(profId: string, subjectId: string) {
-    //     const foundSubject = await this.subjectService.findSubject(subjectId);
-    //     const updatedProf = await this.findProf(profId);
-    //     updatedProf.subjects.push(foundSubject);
-    //     updatedProf.save();
-    // }
 }

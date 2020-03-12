@@ -7,7 +7,8 @@ import { ProfModule } from "src/prof/prof.module";
 @Module({
     imports:[
         MongooseModule.forFeature([{name: 'subject', schema: SubjectSchema}]), 
-        forwardRef(() => ProfModule),],
+        forwardRef(() => ProfModule)
+    ],
     controllers: [SubjectController],
     providers: [SubjectService],
 })

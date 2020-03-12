@@ -6,8 +6,9 @@ import { Module, forwardRef } from "@nestjs/common";
 import { SubjectModule } from "src/subject/subject.module";
 @Module({
     imports:[
-        MongooseModule.forFeature([{name: 'Prof',schema: ProfSchema}]),
-        forwardRef(() => SubjectModule)],
+        MongooseModule.forFeature([{name: 'Prof', schema: ProfSchema}]),
+        forwardRef(() => SubjectModule)
+    ],
     controllers: [ProfController],
     providers: [ProfService],
 })

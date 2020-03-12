@@ -9,20 +9,19 @@ export class SubjectService {
         @InjectModel('subject') private readonly subjectModel: Model<Subject>) {}
 
     async insertSubject(name: string, rate: number) {
-        const newSubject = new this.subjectModel({ name, rate});
-        newSubject.profs = [];
+        const newSubject = new this.subjectModel({name, rate});
         const result = await newSubject.save();
         return result;
     }
 
     async getSubjects() {
         const subjects = await this.subjectModel.find().exec();
-        return subjects.map((subject) => ({ id: subject.id, name: subject.name, rate: subject.rate, profs: subject.profs }));
+        return subjects.map((subject) => ({ id: subject.id, name: subject.name, rate: subject.rate }));
     }
 
     async getSingleSubject(subjectId: string) {
         const subject = await this.findSubject(subjectId);
-        return { id: subject.id, name: subject.name, rate: subject.rate, profs: subject.profs };
+        return { id: subject.id, name: subject.name, rate: subject.rate };
     }
 
     async updateSubject(subjectId: string, name: string, rate: number) {

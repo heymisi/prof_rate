@@ -10,7 +10,8 @@ import { SubjectModule } from './subject/subject.module';
     ProfModule,
     SubjectModule, 
     MongooseModule.forRoot(
-      'mongodb+srv://misi:misi@cluster0-qc33m.mongodb.net/myDB?retryWrites=true&w=majority')],
+      'mongodb+srv://misi:misi@cluster0-qc33m.mongodb.net/myDB?retryWrites=true&w=majority', 
+      { useNewUrlParser: true, useUnifiedTopology: true })],
   controllers: [AppController],
   providers: [AppService],
 })

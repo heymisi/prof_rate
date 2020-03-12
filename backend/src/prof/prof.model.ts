@@ -1,5 +1,4 @@
 import * as mongoose from 'mongoose';
-import { Subject } from 'src/subject/subject.model';
 
 export const ProfSchema = new mongoose.Schema({
     name: String,
@@ -10,5 +9,5 @@ export interface Prof extends mongoose.Document{
     id: string;
     name: string;
     rate: number;
-    subjects: Subject[];
+    subjects: mongoose.Types.ObjectId[];
 }
