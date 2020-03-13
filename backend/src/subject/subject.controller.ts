@@ -8,10 +8,10 @@ export class SubjectController{
 
     @Post()
     async addSubject(
-        @Body('name') SubjectName: string,
-        @Body('rate') SubjectRate: number,
-    )  {
-        const newSubject = await this.subjectService.insertSubject(SubjectName,SubjectRate);
+        @Body('name') subjectName: string,
+        @Body('rate') subjectRate: number,
+    ) {
+        const newSubject = await this.subjectService.insertSubject(subjectName, subjectRate);
         return newSubject;
     }  
         
@@ -22,25 +22,23 @@ export class SubjectController{
     }
     
     @Get(':id')
-    getSubject(@Param('id') SubjectId: string){
-        return this.subjectService.getSingleSubject(SubjectId);
+    getSubject(@Param('id') subjectId: string){
+        return this.subjectService.getSingleSubject(subjectId);
     }
 
     @Patch(':id')
     async updateSubject(
-        @Param('id') SubjectId: string,
-        @Body('name') SubjectName: string,
-        @Body('rate') SubjectRate: number,
+        @Param('id') subjectId: string,
+        @Body('name') subjectName: string,
+        @Body('rate') subjectRate: number,
     ){
-       await this.subjectService.updateSubject(SubjectId,SubjectName,SubjectRate);
+       await this.subjectService.updateSubject(subjectId, subjectName, subjectRate);
        return null;
     }
 
     @Delete(':id')
-    async removeSubject(@Param('id') SubjectId: string){
-        await this.subjectService.deleteSubject(SubjectId);
+    async removeSubject(@Param('id') subjectId: string){
+        await this.subjectService.deleteSubject(subjectId);
         return null;
     } 
-
-  
 }

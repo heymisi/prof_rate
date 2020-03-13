@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Subject } from './subject.model';
@@ -9,6 +9,9 @@ export class SubjectService {
         @InjectModel('subject') private readonly subjectModel: Model<Subject>) {}
 
     async insertSubject(name: string, rate: number) {
+        if(!name || rate == null || rate > 5 || rate < 1) {
+            throw new BadRequestException('Required data is missing or incorrect.');
+        }
         const newSubject = new this.subjectModel({name, rate});
         const result = await newSubject.save();
         return result;
@@ -16,7 +19,11 @@ export class SubjectService {
 
     async getSubjects() {
         const subjects = await this.subjectModel.find().exec();
-        return subjects.map((subject) => ({ id: subject.id, name: subject.name, rate: subject.rate }));
+        return subjects.map(
+            (subject) => ({ 
+                id: subject.id, 
+                name: subject.name, 
+                rate: subject.rate }));
     }
 
     async getSingleSubject(subjectId: string) {
@@ -29,7 +36,7 @@ export class SubjectService {
         if (name) {
             updatedsubject.name = name;
         }
-        if (rate) {
+        if (rate != null && rate >= 1 && rate <= 5) {
             updatedsubject.rate = rate;
         }
         updatedsubject.save();

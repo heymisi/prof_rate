@@ -9,15 +9,16 @@ export class ProfController{
     @Post()
     async addProf(
         @Body('name') profName: string,
-        @Body('rate') profRate: number
+        @Body('rate') profRate: number,
+        @Body('subjects') subjects: string[]
     )  {
-        const newProf = await this.profService.insertProf(profName,profRate);
+        const newProf = await this.profService.insertProf(profName, profRate, subjects);
         return newProf;
     }  
         
     @Get()
-    async getAllProfs(){
-        const profs = await this.profService.getProfs();
+    async getAllProfs(@Body('subjectId') subjectId: string){
+        const profs = await this.profService.getProfs(subjectId);
         return profs;
     }
     
@@ -32,13 +33,13 @@ export class ProfController{
         @Body('name') profName: string,
         @Body('rate') profRate: number,
         @Body('subjects') subjects: string[],
-    ){
-       await this.profService.updateProf(profId,profName,profRate,subjects);
+    ) {
+       await this.profService.updateProf(profId, profName, profRate, subjects);
        return null;
     }
 
     @Delete(':id')
-    async removeProf(@Param('id') profId: string){
+    async removeProf(@Param('id') profId: string) {
         await this.profService.deleteProf(profId);
         return null;
     }
