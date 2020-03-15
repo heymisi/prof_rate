@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -30,6 +30,7 @@ import { UserComponent } from './user/user.component';
     MatFormFieldModule,
     MatProgressSpinnerModule,
     FormsModule,
+    ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
     MatSidenavModule,
