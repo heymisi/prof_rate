@@ -1,0 +1,1 @@
+cd backend & npm install & start "" npm run start & cd .. & cd frontend & npm install & start "" npm run start & cd .. & start "" http://localhost:4200/
