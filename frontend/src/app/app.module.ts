@@ -1,41 +1,40 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material';
-import {MatButtonModule} from '@angular/material/button';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { MenuBarComponent } from './component/menu-bar/menu-bar.component';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UserComponent } from './user/user.component';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { HomeComponent } from './component/home/home.component';
+import { ProfComponent } from './component/prof/prof.component';
+import { SubjectComponent } from './component/subject/subject.component';
+import { LoginComponent } from './component/login/login.component';
+import { ButtonModule } from 'primeng/button';
+import { MenubarModule } from 'primeng/menubar';
+import { PasswordModule } from 'primeng/password';
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [
     AppComponent,
+    MenuBarComponent,
+    HomeComponent,
+    ProfComponent,
+    SubjectComponent,
     LoginComponent,
-    UserComponent
   ],
   imports: [
+    ButtonModule,
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatProgressSpinnerModule,
     FormsModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule
+    BrowserAnimationsModule,
+    TabMenuModule,
+    MenubarModule,
+    PasswordModule,
+    HttpClientModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
