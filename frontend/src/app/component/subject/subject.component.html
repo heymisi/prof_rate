@@ -1,1 +1,28 @@
 <h1 style="text-align: center;">Subjects</h1>
+<p-dataView #dv [value]="subjects" [paginator]="true" [rows]="10" paginatorPosition="both">
+ <p-header>
+    <div class="ui-helper-clearfix">
+        <div class="ui-g">
+            <div class="ui-g-12 ui-md-4">
+                <p-dropdown [options]="sortOptions" placeholder="Sort By" [style]="{'min-width':'140px'}"></p-dropdown>
+            </div>
+            <div class="ui-g-6 ui-md-4 filter-container">
+                <div style="position:relative">
+                    <button pButton type="button" icon="pi pi-search" class="ui-button-secondary"></button>
+                    <input type="search" pInputText placeholder="Search by name">
+                </div>
+            </div>
+        </div>
+    </div>
+    </p-header>
+    <ng-template let-subject pTemplate="listItem">
+        <div class="ui-g-12">
+            <div class="ui-g">
+                <div class="ui-g-12">name : <b>{{subject.name}}</b></div>
+                <div class="ui-g-12">rate : <b>{{subject.rate}}</b></div>
+            </div>
+        </div>
+    </ng-template>
+
+
+</p-dataView>

@@ -17,6 +17,9 @@ import { HttpClientModule } from "@angular/common/http";
 import {TabViewModule} from 'primeng/tabview';
 import { RegistrationComponent } from './component/registration/registration.component';
 import {DropdownModule} from 'primeng/dropdown';
+import {TableModule} from 'primeng/table';
+import {DataViewModule} from 'primeng/dataview';
+import {PaginatorModule} from 'primeng/paginator';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,8 +41,10 @@ import {DropdownModule} from 'primeng/dropdown';
     PasswordModule,
     HttpClientModule,
     TabViewModule,
-    DropdownModule
-
+    DropdownModule,
+    TableModule,
+    DataViewModule,
+    PaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
