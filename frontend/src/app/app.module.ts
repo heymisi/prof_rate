@@ -14,7 +14,9 @@ import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { PasswordModule } from 'primeng/password';
 import { HttpClientModule } from "@angular/common/http";
-
+import {TabViewModule} from 'primeng/tabview';
+import { RegistrationComponent } from './component/registration/registration.component';
+import {DropdownModule} from 'primeng/dropdown';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,6 +25,7 @@ import { HttpClientModule } from "@angular/common/http";
     ProfComponent,
     SubjectComponent,
     LoginComponent,
+    RegistrationComponent,
   ],
   imports: [
     ButtonModule,
@@ -33,7 +36,9 @@ import { HttpClientModule } from "@angular/common/http";
     TabMenuModule,
     MenubarModule,
     PasswordModule,
-    HttpClientModule
+    HttpClientModule,
+    TabViewModule,
+    DropdownModule
 
   ],
   providers: [],

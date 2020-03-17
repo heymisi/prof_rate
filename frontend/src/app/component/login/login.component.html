@@ -1,27 +1,74 @@
-<span style="display: block;
-margin-left: auto;
-margin-right: auto;
-width: 10%;
-padding: 100px 0;
-text-align:center ;">
-
-
-  <h2>Login</h2>
-  <div class="ui-g ui-fluid">
-    <div class="ui-g">
-      <div class="ui-g-12 ui-md-4">
-        <div class="ui-inputgroup">
-          <p><input type="text" pInputText placeholder="Username"></p>
+<p-tabView>
+  <p-tabPanel header="NEW TO RATEPROF?">
+    <h2 class="header">Sign up using your email address</h2>
+    <div class="content">
+      <div class="ui-g ui-fluid">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+              <span class="inp"><input type="text" pInputText placeholder="Email"></span>
+            </div>
+          </div>
+          <div class="ui-g-12 ">
+            <div class="ui-inputgroup">
+              <span class="inp"><input type="text" pInputText placeholder="Name"></span>
+            </div>
+          </div>
+          <div class="ui-g-12 ">
+            <div class="ui-inputgroup">
+              <span class="inp"><input type="text" pInputText placeholder="Password"></span>
+            </div>
+          </div>
+          <div class="ui-g-12 ">
+            <div class="ui-inputgroup">
+              <span class="inp"><input type="stext" pInputText placeholder="Password again"></span>
+            </div>
+          </div>
+          <div class="ui-g-12 ">
+            <div class="ui-inputgroup">
+              <p-dropdown [options]="unis" [(ngModel)]="selectedUnis" placeholder="Choose your university"
+                [style]="{'width':'200px'}">
+                <ng-template let-item pTemplate="selectedItem">
+                  <img src="assets/images/university/{{item.label}}.jpg"
+                    style="width:50px;vertical-align:middle" />
+                  <span style="vertical-align:middle">{{item.label}}</span>
+                </ng-template>
+                <ng-template let-uni pTemplate="item">
+                  <div class="ui-helper-clearfix" style="position: relative;height:25px;">
+                    <img src="assets/images/university/{{uni.label}}.jpg"
+                      style="width:50px;position:absolute;" />
+                    <div style="font-size:14px;float:right;left:30px">{{uni.label}}</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <button pButton type="button" label="JOIN RATEPROF" class="ui-button-raised ui-button-success"></button>
         </div>
       </div>
-      <div class="ui-g-12 ">
-        <div class="ui-inputgroup">
-          <p><input type="password" pPassword placeholder="Password"></p>
-        </div>
-      </div>
-      <button pButton type="button" label="Login" class="ui-button-raised ui-button-success"></button>
     </div>
-  </div>
 
+  </p-tabPanel>
 
-</span>
+  <p-tabPanel header="ALREADY REGISTERED?" [selected]="true">
+    <h2 class="header">Sign in with email</h2>
+    <div class="content">
+      <div class="ui-g ui-fluid">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+              <span class="inp"><input type="text" pInputText placeholder="Email"></span>
+            </div>
+          </div>
+          <div class="ui-g-12 ">
+            <div class="ui-inputgroup">
+              <span class="inp"><input type="password" pPassword placeholder="Password"></span>
+            </div>
+          </div>
+          <button pButton type="button" label="Login" class="ui-button-raised ui-button-success"></button>
+        </div>
+        <a [routerLink]="['/home']"><b>Forgot password?</b></a>
+      </div>
+    </div>
+  </p-tabPanel>
+</p-tabView>

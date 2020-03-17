@@ -15,7 +15,7 @@ export class MenuBarComponent implements OnInit {
       { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: ['/home'] },
       { label: 'Professors', icon: 'pi pi-fw pi-user', routerLink: ['/profs'] },
       { label: 'Subjects', icon: 'pi pi-fw pi-bars', routerLink: ['/subjects'] },
-      { label: 'Login ', icon: 'pi pi-fw pi-sign-in', routerLink: ['/login'] },
+      { label: 'Sign in ', icon: 'pi pi-fw pi-sign-in', routerLink: ['/login'] },
     ];
   }
 
