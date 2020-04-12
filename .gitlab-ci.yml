@@ -1,36 +1,69 @@
+# stages:
+#   - build
+#   - test
+
+# build:
+#   image: docker:latest
+#   services:
+#     - docker:dind
+#   stage: build
+#   script: 
+#     - echo $CI_DEPLOY_USER & echo $CI_DEPLOY_PASSWORD & echo $CI_REGISTRY
+#     # - docker login -u $CI_DEPLOY_USER -p $CI_DEPLOY_PASSWORD $CI_REGISTRY
+#     - cd frontend && docker build -t frontend . && cd ..
+#     - cd backend && docker build -t backend . && cd ..
+#     - mkdir images
+#     - docker save frontend > images/frontend.tar
+#     - docker save backend > images/backend.tar
+#   artifacts:
+#     paths:
+#       - images
+
+# test:
+#   image: docker:latest
+#   services:
+#     - docker:dind
+#   stage: test
+#   script:
+#     - docker login -u gitlab+deploy-token-160049 -p E3mGhsWHsj6GSvHA2xsu registry.gitlab.com/morvag/profrate/nodium
+
+#     - docker load -i images/frontend.tar
+#     - docker run --name frontend -d frontend
+
+#     - docker load -i images/backend.tar
+#     - docker run --name backend -d backend
+#     # - cd frontend && docker run frontend
+#     # - cd backend && docker run backend
+
+
+image: trion/ng-cli-karma
+
+cache:
+  paths:
+    - frontend/node_modules/
+    - backend/node_modules/
+
 stages:
-  - build
-  - test
+  - build-frontend
+  - test-frontend
 
-build:
-  image: docker:latest
-  services:
-    - docker:dind
-  stage: build
-  script: 
-    - echo $CI_DEPLOY_USER & echo $CI_DEPLOY_PASSWORD & echo $CI_REGISTRY
-    # - docker login -u $CI_DEPLOY_USER -p $CI_DEPLOY_PASSWORD $CI_REGISTRY
-    - cd frontend && docker build -t frontend . && cd ..
-    - cd backend && docker build -t backend . && cd ..
-    - mkdir images
-    - docker save frontend > images/frontend.tar
-    - docker save backend > images/backend.tar
-  artifacts:
-    paths:
-      - images
+build-frontend:
+  stage: build-frontend
+    script:
+      - cd frontend
+      - npm install
+      - ./node_modules/@angular/cli/bin/ng build --progress false --prod
+      - cd ..
 
-test:
-  image: docker:latest
-  services:
-    - docker:dind
-  stage: test
-  script:
-    - docker login -u gitlab+deploy-token-160049 -p E3mGhsWHsj6GSvHA2xsu registry.gitlab.com/morvag/profrate/nodium
+      # - ./node_modules/@angular/cli/bin/ng test --progress false --single-run=true --watch=false
+      # - ./node_modules/@angular/cli/bin/ng e2e --progress false --watch=false
+      # - ./node_modules/@angular/cli/bin/ng build --progress false --prod --base-href plus1-stage.surge.sh
+      # - ./node_modules/.bin/surge -p dist/ --domain plus1-stage.surge.sh
 
-    - docker load -i images/frontend.tar
-    - docker run --name frontend -d frontend
-
-    - docker load -i images/backend.tar
-    - docker run --name backend -d backend
-    # - cd frontend && docker run frontend
-    # - cd backend && docker run backend
+test-frontend:
+  stage: test-frontend
+    script:
+      - cd frontend
+      - npm install
+      - ./node_modules/@angular/cli/bin/ng test --progress false --single-run=true --watch=false
+      - cd ..
