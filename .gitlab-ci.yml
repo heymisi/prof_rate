@@ -3,13 +3,15 @@ stages:
   - test
 
 build:
+  image: docker:latest
   stage: build
   script: 
     - cd frontend && docker build -t frontend . && cd ..
     - cd backend && docker build -t backend . && cd ..
 
 test:
+  image: docker:latest
   stage: test
   script:
-    - cd frontend && docker run -it frontend
-    - cd backend && docker run -it backend
+    - cd frontend && docker run frontend
+    - cd backend && docker run backend
