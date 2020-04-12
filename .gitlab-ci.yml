@@ -4,6 +4,8 @@ stages:
 
 build:
   image: docker:latest
+  services:
+    - docker:dind
   stage: build
   script: 
     - cd frontend && docker build -t frontend . && cd ..
@@ -11,6 +13,8 @@ build:
 
 test:
   image: docker:latest
+  services:
+    - docker:dind
   stage: test
   script:
     - cd frontend && docker run frontend
