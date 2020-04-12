@@ -16,7 +16,8 @@ build:
     - docker save frontend > images/frontend.tar
     - docker save backend > images/backend.tar
   artifacts:
-    - images
+    paths:
+      - images
 
 test:
   image: docker:latest
@@ -25,7 +26,7 @@ test:
   stage: test
   script:
     - docker login -u gitlab+deploy-token-160049 -p E3mGhsWHsj6GSvHA2xsu registry.gitlab.com/morvag/profrate/nodium
-    
+
     - docker load -i images/frontend.tar
     - docker run --name frontend -d frontend
 
