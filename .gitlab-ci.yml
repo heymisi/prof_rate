@@ -8,11 +8,15 @@ build:
     - docker:dind
   stage: build
   script: 
-    - echo 'faszomat belehúzom:)'
     - echo $CI_DEPLOY_USER & echo $CI_DEPLOY_PASSWORD & echo $CI_REGISTRY
     # - docker login -u $CI_DEPLOY_USER -p $CI_DEPLOY_PASSWORD $CI_REGISTRY
     - cd frontend && docker build -t frontend . && cd ..
     - cd backend && docker build -t backend . && cd ..
+    - mkdir images
+    - docker save frontend > images/frontend.tar
+    - docker save backend > images/backend.tar
+  artifacts:
+    - images
 
 test:
   image: docker:latest
@@ -21,5 +25,11 @@ test:
   stage: test
   script:
     - docker login -u gitlab+deploy-token-160049 -p E3mGhsWHsj6GSvHA2xsu registry.gitlab.com/morvag/profrate/nodium
-    - cd frontend && docker run frontend
-    - cd backend && docker run backend
+    
+    - docker load -i images/frontend.tar
+    - docker run --name frontend -d frontend
+
+    - docker load -i images/backend.tar
+    - docker run --name backend -d backend
+    # - cd frontend && docker run frontend
+    # - cd backend && docker run backend
