@@ -1,11 +1,13 @@
 build:
   stage: build
   script:
+    - cd frontend
     - npm install
     - npm run build:ci
 
 test:
   stage: test
   script:
+    - cd frontend
     - npm install
     - npm run test:ci
