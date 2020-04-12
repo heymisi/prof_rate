@@ -8,7 +8,8 @@ build:
     - docker:dind
   stage: build
   script: 
-    - docker login -u $CI_DEPLOY_USER -p $CI_DEPLOY_PASSWORD $CI_REGISTRY
+    - echo $CI_DEPLOY_USER & echo $CI_DEPLOY_PASSWORD & echo $CI_REGISTRY
+    # - docker login -u $CI_DEPLOY_USER -p $CI_DEPLOY_PASSWORD $CI_REGISTRY
     - cd frontend && docker build -t frontend . && cd ..
     - cd backend && docker build -t backend . && cd ..
 
