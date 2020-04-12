@@ -49,21 +49,21 @@ stages:
 
 build-frontend:
   stage: build-frontend
-    script:
-      - cd frontend
-      - npm install
-      - ./node_modules/@angular/cli/bin/ng build --progress false --prod
-      - cd ..
+  script:
+    - cd frontend
+    - npm install
+    - ./node_modules/@angular/cli/bin/ng build --progress false --prod
+    - cd ..
 
-      # - ./node_modules/@angular/cli/bin/ng test --progress false --single-run=true --watch=false
-      # - ./node_modules/@angular/cli/bin/ng e2e --progress false --watch=false
-      # - ./node_modules/@angular/cli/bin/ng build --progress false --prod --base-href plus1-stage.surge.sh
-      # - ./node_modules/.bin/surge -p dist/ --domain plus1-stage.surge.sh
+    # - ./node_modules/@angular/cli/bin/ng test --progress false --single-run=true --watch=false
+    # - ./node_modules/@angular/cli/bin/ng e2e --progress false --watch=false
+    # - ./node_modules/@angular/cli/bin/ng build --progress false --prod --base-href plus1-stage.surge.sh
+    # - ./node_modules/.bin/surge -p dist/ --domain plus1-stage.surge.sh
 
 test-frontend:
   stage: test-frontend
-    script:
-      - cd frontend
-      - npm install
-      - ./node_modules/@angular/cli/bin/ng test --progress false --single-run=true --watch=false
-      - cd ..
+  script:
+    - cd frontend
+    - npm install
+    - ./node_modules/@angular/cli/bin/ng test --progress false --single-run=true --watch=false
+    - cd ..
