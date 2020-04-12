@@ -46,13 +46,16 @@ cache:
 stages:
   - build-frontend
   - test-frontend
+  - build-backend
+  - test-backend
 
 build-frontend:
   stage: build-frontend
   script:
     - cd frontend
     - npm install
-    - ./node_modules/@angular/cli/bin/ng build --progress false --prod
+    # - ./node_modules/@angular/cli/bin/ng build --progress false --prod
+    - npm run build:ci
     - cd ..
 
     # - ./node_modules/@angular/cli/bin/ng test --progress false --single-run=true --watch=false
@@ -65,5 +68,22 @@ test-frontend:
   script:
     - cd frontend
     - npm install
-    - ./node_modules/@angular/cli/bin/ng test --progress false --single-run=true --watch=false
+    # - ./node_modules/@angular/cli/bin/ng test --progress false --watch=false
+    - npm run test:ci
     - cd ..
+
+build-backend:
+  stage: build-backend
+  script:
+    - cd backend
+    - npm install
+    - npm run build
+    - cd ..
+
+test-backend:
+    stage: test-backend
+    script:
+      - cd backend
+      - npm install
+      - npm run test
+      - cd ..
