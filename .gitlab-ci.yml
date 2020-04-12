@@ -1,0 +1,15 @@
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  script: 
+    - cd frontend && docker build -t frontend . && cd ..
+    - cd backend && docker build -t backend . && cd ..
+
+test:
+  stage: test
+  script:
+    - cd frontend && docker run -it frontend
+    - cd backend && docker run -it backend
