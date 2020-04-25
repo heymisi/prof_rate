@@ -9,7 +9,7 @@ backend-tslint:
  script:
     - cd backend
     - npm i tslint
-    - tslint --project .
+    - npx tslint --project .
 backend-test:
   stage: test
   script:

@@ -9,7 +9,7 @@ frontend-tslint:
  script:
     - cd frontend
     - npm i tslint
-    - tslint --project . 
+    - npx tslint --project . 
 frontend-test:
   stage: test
   script:
