@@ -4,7 +4,11 @@ backend-build:
     - cd backend
     - npm install
     - npm run build
-
+backend-tslint:
+ stage: lint
+ script:
+    - npm i tslint
+    - node_modules/tslint/bin/tslint .
 backend-test:
   stage: test
   script:

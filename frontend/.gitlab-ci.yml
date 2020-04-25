@@ -4,10 +4,16 @@ frontend-build:
     - cd frontend
     - npm install
     - npm run build:ci
-
+frontend-tslint:
+ stage: lint
+ script:
+    - npm i tslint
+    - node_modules/tslint/bin/tslint .
 frontend-test:
   stage: test
   script:
     - cd frontend
     - npm install
     - npm run test:ci
+
+
