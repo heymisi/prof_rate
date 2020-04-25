@@ -7,6 +7,7 @@ backend-build:
 backend-tslint:
  stage: lint
  script:
+    - cd backend
     - npm i tslint
     - node_modules/tslint/bin/tslint .
 backend-test:

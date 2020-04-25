@@ -7,6 +7,7 @@ frontend-build:
 frontend-tslint:
  stage: lint
  script:
+    - cd frontend
     - npm i tslint
     - node_modules/tslint/bin/tslint .
 frontend-test:
