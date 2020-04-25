@@ -13,14 +13,14 @@ export class SubjectController{
     ) {
         const newSubject = await this.subjectService.insertSubject(subjectName, subjectRate);
         return newSubject;
-    }  
-        
+    }
+
     @Get()
     async getAllSubject(){
         const Subjects = await this.subjectService.getSubjects();
         return Subjects;
     }
-    
+
     @Get(':id')
     getSubject(@Param('id') subjectId: string){
         return this.subjectService.getSingleSubject(subjectId);
@@ -40,5 +40,5 @@ export class SubjectController{
     async removeSubject(@Param('id') subjectId: string){
         await this.subjectService.deleteSubject(subjectId);
         return null;
-    } 
+    }
 }

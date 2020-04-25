@@ -14,14 +14,14 @@ export class ProfController{
     )  {
         const newProf = await this.profService.insertProf(profName, profRate, subjects);
         return newProf;
-    }  
-        
+    }
+
     @Get()
     async getAllProfs(@Body('subjectId') subjectId: string){
         const profs = await this.profService.getProfs(subjectId);
         return profs;
     }
-    
+
     @Get(':id')
     getProf(@Param('id') profId: string){
         return this.profService.getSingleProf(profId);

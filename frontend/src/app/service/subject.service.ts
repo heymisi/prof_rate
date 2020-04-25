@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class SubjectService {
-  private subjectUrl: string = "http://localhost:3000/subjects";
+  private subjectUrl = 'http://localhost:3000/subjects';
 
   constructor(private http: HttpClient,
     private authService: AuthService, ) { }

@@ -25,8 +25,8 @@ export class ProfService {
         if(subjectId) {
             const subjectObjectId = new Types.ObjectId(subjectId);
             const foundProfs = [];
-            for(let prof of profs) {
-                for(let subject of prof.subjects) {
+            for(const prof of profs) {
+                for(const subject of prof.subjects) {
                     if(subject.equals(subjectObjectId)) {
                         foundProfs.push(prof);
                         break;
@@ -36,19 +36,19 @@ export class ProfService {
             profs = foundProfs;
         }
         return profs.map(
-            (prof) => ({ 
-                id: prof.id, 
-                name: prof.name, 
-                rate: prof.rate, 
+            (prof) => ({
+                id: prof.id,
+                name: prof.name,
+                rate: prof.rate,
                 subjects: prof.subjects }));
     }
 
     async getSingleProf(profId: string) {
         const prof = await this.findProf(profId);
-        return { 
-            _id: prof.id, 
-            name: prof.name, 
-            rate: prof.rate, 
+        return {
+            _id: prof.id,
+            name: prof.name,
+            rate: prof.rate,
             subjects: prof.subjects };
     }
 
@@ -68,7 +68,7 @@ export class ProfService {
 
     async deleteProf(profId: string) {
         const result = await this.profModel.deleteOne({ _id: profId }).exec();
-        if (result.n == 0) {
+        if (result.n === 0) {
             throw new NotFoundException('Could not find professor.');
         }
     }

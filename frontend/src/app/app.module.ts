@@ -13,7 +13,7 @@ import { LoginComponent } from './component/login/login.component';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { PasswordModule } from 'primeng/password';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
 import {TabViewModule} from 'primeng/tabview';
 import { RegistrationComponent } from './component/registration/registration.component';
 import {DropdownModule} from 'primeng/dropdown';

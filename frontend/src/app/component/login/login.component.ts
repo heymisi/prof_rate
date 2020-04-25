@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
 
   unis : SelectItem[];
   selectedUnis: University[];
-  constructor() { 
+  constructor() {
     this.unis = [
       {label:'ELTE', value:{id:1, name: 'EÖTVÖS LORÁND TUDOMÁNYEGYETEM', code: 'ELTE'}},
       {label:'SZTE', value:{id:2, name: 'SZEGEDI TUDOMÁNY EGYETEM', code: 'SZTE'}},

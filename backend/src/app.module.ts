@@ -5,12 +5,12 @@ import { ProfModule } from './prof/prof.module';
 import{ MongooseModule} from '@nestjs/mongoose'
 import { SubjectModule } from './subject/subject.module';
 @Module({
-  
+
   imports: [
     ProfModule,
-    SubjectModule, 
+    SubjectModule,
     MongooseModule.forRoot(
-      'mongodb+srv://misi:misi@cluster0-qc33m.mongodb.net/myDB?retryWrites=true&w=majority', 
+      'mongodb+srv://misi:misi@cluster0-qc33m.mongodb.net/myDB?retryWrites=true&w=majority',
       { useNewUrlParser: true, useUnifiedTopology: true })],
   controllers: [AppController],
   providers: [AppService],

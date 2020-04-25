@@ -9,24 +9,24 @@ import { HomeComponent } from './component/home/home.component';
 
 const routes: Routes = [
   {
-    path: "",
-    redirectTo: "/home",
-    pathMatch: "full"
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full'
   },
   {
-    path: "home",
+    path: 'home',
     component: HomeComponent,
   },
   {
-    path: "profs",
+    path: 'profs',
     component: ProfComponent,
   },
   {
-    path: "subjects",
+    path: 'subjects',
     component: SubjectComponent,
   },
   {
-    path: "login",
+    path: 'login',
     component: LoginComponent,
   }
 

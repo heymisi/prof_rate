@@ -20,9 +20,9 @@ export class SubjectService {
     async getSubjects() {
         const subjects = await this.subjectModel.find().exec();
         return subjects.map(
-            (subject) => ({ 
-                id: subject.id, 
-                name: subject.name, 
+            (subject) => ({
+                id: subject.id,
+                name: subject.name,
                 rate: subject.rate }));
     }
 
@@ -44,7 +44,7 @@ export class SubjectService {
 
     async deleteSubject(subjectId: string) {
         const result = await this.subjectModel.deleteOne({ _id: subjectId }).exec();
-        if (result.n == 0) {
+        if (result.n === 0) {
             throw new NotFoundException('Could not find subject.');
         }
     }
