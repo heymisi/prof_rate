@@ -17,12 +17,11 @@ export const httpOptions = {
 export class ProfService {
     private profUrl = 'http://localhost:3000/profs';
 
-    constructor(private http: HttpClient,
-        private authService: AuthService,) { }
+    constructor(private http: HttpClient, private authService: AuthService) { }
 
-        getProfs(): Promise<Prof[]> {
-            return this.http.get<Prof[]>(`${this.profUrl}`, httpOptions).toPromise();
-          }
+    getProfs(): Promise<Prof[]> {
+        return this.http.get<Prof[]>(`${this.profUrl}`, httpOptions).toPromise();
+    }
 
 }
 
