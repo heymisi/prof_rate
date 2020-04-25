@@ -45,8 +45,9 @@ cache:
 
 stages:
   - build
-  - test
   - lint
+  - test
+  
 include:
   - '/frontend/.gitlab-ci.yml'
   - '/backend/.gitlab-ci.yml'
