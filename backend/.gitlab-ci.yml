@@ -4,12 +4,8 @@ backend-build:
     - cd backend
     - npm install
     - npm run build
-backend-tslint:
- stage: lint
- script:
-    - cd backend
-    - npm i tslint
-    - npx tslint --project .
+    - npm run lint
+    - npm run format
 backend-test:
   stage: test
   script:
