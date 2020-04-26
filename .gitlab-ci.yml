@@ -45,7 +45,6 @@ cache:
 
 stages:
   - build
-  - lint
   - test
   
 include:

@@ -1,7 +1,7 @@
-import { Subject } from './subject';
+import { Subject } from "./subject";
 
-describe('Subject', () => {
-  it('should create an instance', () => {
+describe("Subject", () => {
+  it("should create an instance", () => {
     expect(new Subject()).toBeTruthy();
   });
 });

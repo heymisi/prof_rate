@@ -1,39 +1,36 @@
-import { LoginComponent } from './component/login/login.component';
-import { SubjectComponent } from './component/subject/subject.component';
-import { ProfComponent } from './component/prof/prof.component';
-import { MenuBarComponent } from './component/menu-bar/menu-bar.component';
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './component/home/home.component';
-
+import { LoginComponent } from "./component/login/login.component";
+import { SubjectComponent } from "./component/subject/subject.component";
+import { ProfComponent } from "./component/prof/prof.component";
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { HomeComponent } from "./component/home/home.component";
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
+    path: "",
+    redirectTo: "/home",
+    pathMatch: "full",
   },
   {
-    path: 'home',
+    path: "home",
     component: HomeComponent,
   },
   {
-    path: 'profs',
+    path: "profs",
     component: ProfComponent,
   },
   {
-    path: 'subjects',
+    path: "subjects",
     component: SubjectComponent,
   },
   {
-    path: 'login',
+    path: "login",
     component: LoginComponent,
-  }
-
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
