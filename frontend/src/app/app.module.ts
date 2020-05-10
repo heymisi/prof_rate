@@ -20,6 +20,14 @@ import { DropdownModule } from "primeng/dropdown";
 import { TableModule } from "primeng/table";
 import { DataViewModule } from "primeng/dataview";
 import { PaginatorModule } from "primeng/paginator";
+import { SplitButtonModule } from "primeng/splitbutton";
+import { ConfirmDialogModule } from "primeng/confirmdialog";
+import { DialogModule } from "primeng/dialog";
+import { InputTextModule } from "primeng/inputtext";
+import { RatingModule } from "primeng/rating";
+import { FileUploadModule } from "primeng/fileupload";
+import { ToolbarModule } from "primeng/toolbar";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +53,13 @@ import { PaginatorModule } from "primeng/paginator";
     TableModule,
     DataViewModule,
     PaginatorModule,
+    SplitButtonModule,
+    ConfirmDialogModule,
+    DialogModule,
+    InputTextModule,
+    RatingModule,
+    FileUploadModule,
+    ToolbarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

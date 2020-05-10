@@ -16,4 +16,22 @@ export class SubjectService {
       .get<Subject[]>(`${this.subjectUrl}`, httpOptions)
       .toPromise();
   }
+
+  deleteSubject(subj: Subject): Promise<Subject> {
+    return this.http
+      .delete<Subject>(`${this.subjectUrl}/${subj.id}`, httpOptions)
+      .toPromise();
+  }
+
+  insertSubject(name: string, rate: number): Promise<Subject> {
+    return this.http
+      .post<Subject>(`${this.subjectUrl}`, { name, rate }, httpOptions)
+      .toPromise();
+  }
+
+  modifySubject(id: string, name: string, rate: number): Promise<Subject> {
+    return this.http
+      .patch<Subject>(`${this.subjectUrl}/${id}`, { name, rate }, httpOptions)
+      .toPromise();
+  }
 }
