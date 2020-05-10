@@ -8,6 +8,7 @@ import { ConfirmationService, Message } from "primeng/api";
   selector: "app-subject",
   templateUrl: "./subject.component.html",
   styleUrls: ["./subject.component.css"],
+  providers: [ConfirmationService],
 })
 export class SubjectComponent implements OnInit {
   subjects: Subject[] = [];
@@ -16,10 +17,19 @@ export class SubjectComponent implements OnInit {
   //public dialogMessages: Message[] = [];
   displayAdd = false;
   displayModify = false;
+  displayWholeSubj = false;
+  selectedSubject: Subject;
   subjForModify: Subject;
   name: string;
   rate: number;
-  constructor(private subjService: SubjectService) {}
+  msgs: Message[] = [];
+  val1: number;
+  val2: number;
+  val3: number;
+  constructor(
+    private subjService: SubjectService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.subjects = await this.subjService.getSubjects();
@@ -55,5 +65,35 @@ export class SubjectComponent implements OnInit {
   showModifyDialog(subj: Subject) {
     this.displayModify = true;
     this.subjForModify = subj;
+  }
+  confirmDelete(subj: Subject) {
+    this.confirmationService.confirm({
+      message: "Are you sure that you dont need this subject anymore?",
+      header: "Confirmation",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => {
+        this.onDeleteClick(subj);
+        this.msgs = [
+          { severity: "info", summary: "Confirmed", detail: "Record deleted" },
+        ];
+      },
+      reject: () => {
+        this.msgs = [
+          {
+            severity: "info",
+            summary: "Rejected",
+            detail: "You have rejected",
+          },
+        ];
+      },
+    });
+  }
+
+  selectSubject(subj: Subject) {
+    this.displayWholeSubj = true;
+    this.selectedSubject = subj;
+  }
+  onDialogHide() {
+    this.selectedSubject = null;
   }
 }

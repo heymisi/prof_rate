@@ -27,7 +27,7 @@ import { InputTextModule } from "primeng/inputtext";
 import { RatingModule } from "primeng/rating";
 import { FileUploadModule } from "primeng/fileupload";
 import { ToolbarModule } from "primeng/toolbar";
-
+import { InputTextareaModule } from "primeng/inputtextarea";
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +60,7 @@ import { ToolbarModule } from "primeng/toolbar";
     RatingModule,
     FileUploadModule,
     ToolbarModule,
+    InputTextareaModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,3 +1,4 @@
+<p-messages [showTransitionOptions]="'1000ms'" [value]="msgs"></p-messages>
 <h1 style="text-align: center;">Subjects</h1>
 <p-dataView #dv [value]="subjects" [paginator]="true" [rows]="10" paginatorPosition="both" filterBy="name">
     <p-header>
@@ -10,7 +11,7 @@
                 <div class="ui-g-6 ui-md-4 filter-container">
                     <div style="position:relative">
                         <button pButton type="button" icon="pi pi-search" class="ui-button-secondary"
-                        [disabled]="true"></button>
+                            [disabled]="true"></button>
                         <input type="search" pInputText placeholder="Search by name"
                             (input)="dv.filter($event.target.value)"> </div>
                 </div>
@@ -23,7 +24,8 @@
     </p-header>
     <ng-template let-subject pTemplate="listItem">
         <div class="ui-g" style="vertical-align:middle;   text-align: center;border: 1px solid #ffffff;">
-            <div class="ui-g-12 ui-md-3"><img src="assets/images/subject/{{subject.image}}.jpg" style="width:200px;" />
+            <div class="ui-g-12 ui-md-3"><a class="pointer" (click)="selectSubject(subject)"><img
+                        src="assets/images/subject/{{subject.image}}.jpg" style="width:200px;" /></a>
             </div>
             <div class="ui-g-12 ui-md-3 ui-g-nopad">
                 <div class="ui-g" style="text-align: left;">
@@ -40,18 +42,18 @@
                     <br />
                     <br />
                     <b>Difficulty</b>
-                    <p-rating [ngModel]="subject.rate" iconOnClass="pi pi-thumbs-up" iconOffClass="pi pi-circle-off"
-                        iconCancelClass="pi pi-times">;</p-rating>
+                    <p-rating [ngModel]="subject.rate" disabled="true" iconOnClass="pi pi-thumbs-up"
+                        iconOffClass="pi pi-circle-off" iconCancelClass="pi pi-times">;</p-rating>
                 </div>
                 <div class="ui-g-12">
                     <b>Usefulness</b>
-                    <p-rating [ngModel]="subject.rate" iconOnClass="pi pi-thumbs-up" iconOffClass="pi pi-circle-off"
-                        iconCancelClass="pi pi-times">;</p-rating>
+                    <p-rating [ngModel]="subject.rate" disabled="true" iconOnClass="pi pi-thumbs-up"
+                        iconOffClass="pi pi-circle-off" iconCancelClass="pi pi-times">;</p-rating>
                 </div>
                 <div class="ui-g-12">
                     <b>Curiosity</b>
-                    <p-rating [ngModel]="subject.rate" iconOnClass="pi pi-thumbs-up" iconOffClass="pi pi-circle-off"
-                        iconCancelClass="pi pi-times">;</p-rating>
+                    <p-rating [ngModel]="subject.rate" disabled="true" iconOnClass="pi pi-thumbs-up"
+                        iconOffClass="pi pi-circle-off" iconCancelClass="pi pi-times">;</p-rating>
                 </div>
             </div>
             <div class="ui-g-12" style="text-align: right;">
@@ -59,7 +61,8 @@
                 <button pButton type="button" label="UPDATE" (click)="showModifyDialog(subject)" icon='pi pi-refresh'
                     class="ui-button-secondary">
                 </button>
-                <button pButton type="button" label="DELETE" (click)="onDeleteClick(subject)" icon='pi pi-times'
+                <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+                <button pButton type="button" label="DELETE" (click)="confirmDelete(subject)" icon='pi pi-times'
                     class="ui-button-danger">
                 </button>
             </div>
@@ -67,6 +70,61 @@
 
     </ng-template>
 </p-dataView>
+
+
+<p-dialog header="Subject Details" [(visible)]="displayWholeSubj" [style]="{width: '1000px'}" [responsive]="true"
+    showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+    <div class="ui-g" *ngIf="selectedSubject">
+        <div class="ui-g-12 ui-md-8" style="text-align:center">
+            <img src="assets/images/subject/{{selectedSubject.image}}.jpg" style="width: 400px;">
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <div class="ui-g" style="font-size: large;">
+                <div class="ui-g-12"><br /><i>Name:</i><br /><b>&nbsp;&nbsp;&nbsp;{{selectedSubject.name}}</b><br />
+                </div>
+                <div class="ui-g-12"><i>Rated by:</i> <br /><b>&nbsp;&nbsp;&nbsp;{{selectedSubject.rate}}</b><br />
+                </div>
+                <div class="ui-g-12"><i>Comments:</i> <br /><b>&nbsp;&nbsp;&nbsp;0</b><br /></div>
+                <div class="ui-g-12"><i>Bio:</i><br /><b>&nbsp;&nbsp;&nbsp;There is no bio</b><br /></div>
+                <div class="ui-g-12">
+                    <br />
+                    <h3>Rate this subject</h3>
+                    <h5>Difficulty: {{val1}}</h5>
+                    <p-rating [(ngModel)]="val1" iconOnClass="pi pi-thumbs-up" iconOffClass="pi pi-circle-off"
+                        iconCancelClass="pi pi-times">;</p-rating>
+                </div>
+                <div class="ui-g-12">
+                    <h5>Usefulness: {{val2}}</h5>
+                    <p-rating [(ngModel)]="val2" iconOnClass="pi pi-thumbs-up" iconOffClass="pi pi-circle-off"
+                        iconCancelClass="pi pi-times">;</p-rating>
+                </div>
+                <div class="ui-g-12">
+                    <h5>Curiosity: {{val3}}</h5>
+                    <p-rating [(ngModel)]="val3" iconOnClass="pi pi-thumbs-up" iconOffClass="pi pi-circle-off"
+                        iconCancelClass="pi pi-times">;</p-rating>
+                </div>
+                <div class="ui-g-12" style="text-align:right;">
+                    <button pButton type="button" label="CONFIRM RATE" icon='pi pi-thumbs-up' class="ui-button-primary">
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <h4>Leave a comment</h4>
+                    <textarea style="width: 500px;" [rows]="5" [cols]="30" pInputTextarea
+                        autoResize="autoResize"></textarea>
+                </div>
+                <div class="ui-g-12" style="text-align:center;"> <button pButton type="button" label="COMMENT" icon='pi pi-thumbs-up'
+                    class="ui-button-success"></button></div>
+            </div>
+            <h1>Comments</h1>
+        </div>
+    </div>
+</p-dialog>
+
+
 
 <p-dialog header="ADD NEW PROF" [(visible)]="displayAdd">
     <div class="ui-g">
