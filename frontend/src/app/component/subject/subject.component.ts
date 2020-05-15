@@ -34,9 +34,9 @@ export class SubjectComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.subjects = await this.subjService.getSubjects();
     this.sortOptions = [
-      { label: "Best rated", value: "rate" },
-      { label: "Worst rated", value: "!rate" },
-      { label: "Most kawaii", value: "-" },
+      { label: "Most Members", value: "rate" },
+      { label: "Best rated", value: "!rate" },
+      { label: "Worst rated", value: "-" },
     ];
   }
   onDeleteClick(subj: Subject) {

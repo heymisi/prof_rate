@@ -16,12 +16,10 @@ export class SubjectController {
   @Post()
   async addSubject(
     @Body('name') subjectName: string,
-    @Body('rate') subjectRate: number,
     @Body('image') subjectImage: string,
   ) {
     const newSubject = await this.subjectService.insertSubject(
       subjectName,
-      subjectRate,
       subjectImage,
     );
     return newSubject;

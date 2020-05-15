@@ -13,11 +13,12 @@ export class SubjectService {
     @InjectModel('subject') private readonly subjectModel: Model<Subject>,
   ) {}
 
-  async insertSubject(name: string, rate: number, image: string) {
-    if (!name || rate == null || rate > 5 || rate < 1) {
+  async insertSubject(name: string, image: string) {
+    if (!name || !image) {
       throw new BadRequestException('Required data is missing or incorrect.');
     }
-    const newSubject = new this.subjectModel({ name, rate, image });
+    
+    const newSubject = new this.subjectModel({ name, image, });
     const result = await newSubject.save();
     return result;
   }
@@ -27,7 +28,7 @@ export class SubjectService {
     return subjects.map(subject => ({
       id: subject.id,
       name: subject.name,
-      rate: subject.rate,
+      rate: subject.rateOverallValue,
       image: subject.image,
     }));
   }
@@ -37,7 +38,7 @@ export class SubjectService {
     return {
       id: subject.id,
       name: subject.name,
-      rate: subject.rate,
+      rate: subject.rateOverallValue,
       image: subject.image,
     };
   }
@@ -53,7 +54,7 @@ export class SubjectService {
       updatedsubject.name = name;
     }
     if (rate != null && rate >= 1 && rate <= 5) {
-      updatedsubject.rate = rate;
+      updatedsubject.rateOverallValue = rate;
     }
     if (image) {
       updatedsubject.image = image;

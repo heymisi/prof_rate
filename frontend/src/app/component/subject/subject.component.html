@@ -113,13 +113,38 @@
             <div class="ui-g">
                 <div class="ui-g-12">
                     <h4>Leave a comment</h4>
-                    <textarea style="width: 500px;" [rows]="5" [cols]="30" pInputTextarea
+                    <textarea style="width: 800px;" [rows]="5" [cols]="30" pInputTextarea
                         autoResize="autoResize"></textarea>
                 </div>
-                <div class="ui-g-12" style="text-align:center;"> <button pButton type="button" label="COMMENT" icon='pi pi-thumbs-up'
-                    class="ui-button-success"></button></div>
+                <div class="ui-g-12" style="text-align:right;"> <button pButton type="button" label="COMMENT"
+                        icon='pi pi-comment' class="ui-button-success"></button></div>
             </div>
-            <h1>Comments</h1>
+            <p-dataView #dv [value]="subjects" [paginator]="true" [rows]="10" paginatorPosition="bottom">
+                <p-header>
+                    <h1> <i class="pi pi-comments"></i>
+                        Comments</h1>
+                </p-header>
+                <ng-template let-subject pTemplate="listItem">
+                    <div class="ui-g">
+                        <div class="ui-g-12">
+                            <p-panel header="Commenter name">
+                                <div class="ui-g" style="vertical-align:middle;   text-align: left;">
+                                    <div class="ui-g-12">
+                                        Comment content
+                                    </div>
+
+                                    <div class="ui-g-12" style="text-align: right;">
+                                        <i>10</i>
+                                        <p-rating [(ngModel)]="val3" stars="1" iconOnClass="pi pi-thumbs-up"
+                                            iconOffClass="pi pi-thumbs-up" [cancel]="false"></p-rating>
+
+                                    </div>
+                                </div>
+                            </p-panel>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataView>
         </div>
     </div>
 </p-dialog>

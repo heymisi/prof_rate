@@ -28,6 +28,8 @@ import { RatingModule } from "primeng/rating";
 import { FileUploadModule } from "primeng/fileupload";
 import { ToolbarModule } from "primeng/toolbar";
 import { InputTextareaModule } from "primeng/inputtextarea";
+import { VirtualScrollerModule } from "primeng/virtualscroller";
+import { PanelModule } from "primeng/panel";
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,6 +63,8 @@ import { InputTextareaModule } from "primeng/inputtextarea";
     FileUploadModule,
     ToolbarModule,
     InputTextareaModule,
+    VirtualScrollerModule,
+    PanelModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
