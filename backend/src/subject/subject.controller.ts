@@ -40,13 +40,11 @@ export class SubjectController {
   async updateSubject(
     @Param('id') subjectId: string,
     @Body('name') subjectName: string,
-    @Body('rate') subjectRate: number,
     @Body('image') subjectImage: string,
   ) {
     await this.subjectService.updateSubject(
       subjectId,
       subjectName,
-      subjectRate,
       subjectImage,
     );
     return null;
@@ -55,6 +53,41 @@ export class SubjectController {
   @Delete(':id')
   async removeSubject(@Param('id') subjectId: string) {
     await this.subjectService.deleteSubject(subjectId);
+    return null;
+  }
+
+  @Get(':id/comments')
+  getComments(@Param('id') subjectId: string) {
+    return this.subjectService.getComments(subjectId);
+  }
+
+  @Patch(':id/comments')
+  addNewComment(
+    @Param('id') subjectId: string,
+    @Body('comment') comment: string,
+  ) {
+    this.subjectService.addComment(subjectId, comment);
+    return null;
+  }
+
+  @Get(':id/rating')
+  getRatings(@Param('id') subjectId: string) {
+    return this.subjectService.getRatings(subjectId);
+  }
+
+  @Patch(':id/rating')
+  async updateRating(
+    @Param('id') subjectId: string,
+    @Body('difficulty') difficulty: number,
+    @Body('usefulness') usefulness: number,
+    @Body('curiosity') curiosity: number,
+  ) {
+    await this.subjectService.updateRating(
+      subjectId,
+      difficulty,
+      usefulness,
+      curiosity,
+    );
     return null;
   }
 }

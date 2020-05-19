@@ -4,6 +4,7 @@ import { ProfModule } from 'src/prof/prof.module';
 import { UserSchema } from './user.model';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
+
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'user', schema: UserSchema }]),

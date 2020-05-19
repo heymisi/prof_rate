@@ -9,16 +9,18 @@ import { Model, Types } from 'mongoose';
 
 @Injectable()
 export class ProfService {
-  constructor(@InjectModel('Prof') private readonly profModel: Model<Prof>) {}
+  constructor(@InjectModel('prof') private readonly profModel: Model<Prof>) {}
 
-  async insertProf(name: string, rate: number, subjects: string[]) {
-    if (!name || rate == null || rate > 5 || rate < 1) {
+  async insertProf(name: string, subjects: string[]) {
+    if (!name) {
       throw new BadRequestException('Required data is missing or incorrect.');
     }
-    const newProf = new this.profModel({ name, rate });
+    const newProf = new this.profModel({ name });
     if (subjects) {
       newProf.subjects = subjects.map(subject => new Types.ObjectId(subject));
     }
+    newProf.rateCounter = 0;
+    newProf.commentCounter = 0;
     const result = await newProf.save();
     return result;
   }
@@ -26,7 +28,8 @@ export class ProfService {
   async getProfs(subjectId: string) {
     let profs = await this.profModel
       .find()
-      .populate('subjects')
+      .populate({ path: 'subjects', select: ['name', 'image'] })
+      .populate('comments')
       .exec();
     if (subjectId) {
       const subjectObjectId = new Types.ObjectId(subjectId);
@@ -44,8 +47,13 @@ export class ProfService {
     return profs.map(prof => ({
       id: prof.id,
       name: prof.name,
-      rate: prof.rate,
       subjects: prof.subjects,
+      rateCounter: prof.rateCounter,
+      commentCounter: prof.commentCounter,
+      /*comments: prof.comments,
+      ratesByHelpfulness: prof.ratesByHelpfulness,
+      ratesByPreparedness: prof.ratesByPreparedness,
+      ratesByDiction: prof.ratesByDiction*/
     }));
   }
 
@@ -54,23 +62,21 @@ export class ProfService {
     return {
       _id: prof.id,
       name: prof.name,
-      rate: prof.rate,
       subjects: prof.subjects,
+      rateCounter: prof.rateCounter,
+      commentCounter: prof.commentCounter,
+
+      /*comments: prof.comments,
+      ratesByHelpfulness: prof.ratesByHelpfulness,
+      ratesByPreparedness: prof.ratesByPreparedness,
+      ratesByDiction: prof.ratesByDiction*/
     };
   }
 
-  async updateProf(
-    profId: string,
-    name: string,
-    rate: number,
-    subjects: string[],
-  ) {
+  async updateProf(profId: string, name: string, subjects: string[]) {
     const updatedProf = await this.findProf(profId);
     if (name) {
       updatedProf.name = name;
-    }
-    if (rate != null && rate >= 1 && rate <= 5) {
-      updatedProf.rate = rate;
     }
     if (subjects) {
       updatedProf.subjects = subjects.map(
@@ -93,6 +99,7 @@ export class ProfService {
       prof = await this.profModel
         .findById(id)
         .populate('subjects')
+        .populate('comments')
         .exec();
     } catch (error) {
       throw new NotFoundException('Could not find professor.');
@@ -101,5 +108,75 @@ export class ProfService {
       throw new NotFoundException('Could not find professor.');
     }
     return prof;
+  }
+
+  async getComments(profId: string) {
+    const foundProf = await this.findProf(profId);
+    return foundProf.comments;
+  }
+
+  async addComment(profId: string, comment: string) {
+    const foundProf = await this.findProf(profId);
+    if (comment) {
+      const commentObjectId = new Types.ObjectId(comment);
+      foundProf.comments.push(commentObjectId);
+      foundProf.commentCounter++;
+    }
+    foundProf.save();
+    return foundProf.comments;
+  }
+
+  async getRatings(profId: string) {
+    const foundProf = await this.findProf(profId);
+    const rates: number[] = [0, 0, 0, 0];
+    if (foundProf.rateCounter != 0) {
+      let rateValue = 0;
+      for (const rate of foundProf.ratesByHelpfulness) {
+        rateValue += rate;
+      }
+      rates[0] = rateValue / foundProf.rateCounter;
+      rateValue = 0;
+      for (const rate of foundProf.ratesByPreparedness) {
+        rateValue += rate;
+      }
+      rates[1] = rateValue / foundProf.rateCounter;
+      rateValue = 0;
+      for (const rate of foundProf.ratesByDiction) {
+        rateValue += rate;
+      }
+      rates[2] = rateValue / foundProf.rateCounter;
+      rates[3] = 0;
+      for (let i = 0; i < 3; i++) {
+        rates[3] += rates[i];
+      }
+      rates[3] /= 3;
+    }
+    return rates;
+  }
+
+  async updateRating(
+    profId: string,
+    helpfulness: number,
+    preparedness: number,
+    diction: number,
+  ) {
+    const foundProf = await this.findProf(profId);
+    let validRateCount = 0;
+    if (helpfulness != null && helpfulness >= 1 && helpfulness <= 5) {
+      foundProf.ratesByHelpfulness.push(helpfulness);
+      validRateCount++;
+    }
+    if (preparedness != null && preparedness >= 1 && preparedness <= 5) {
+      foundProf.ratesByPreparedness.push(preparedness);
+      validRateCount++;
+    }
+    if (diction != null && diction >= 1 && diction <= 5) {
+      foundProf.ratesByDiction.push(diction);
+      validRateCount++;
+    }
+    if (validRateCount == 3) {
+      foundProf.rateCounter++;
+      foundProf.save();
+    }
   }
 }

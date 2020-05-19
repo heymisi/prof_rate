@@ -1,28 +1,275 @@
-<h1 style="text-align: center;">Subjects</h1>
-<p-dataView #dv [value]="profs" [paginator]="true" [rows]="10" paginatorPosition="both">
- <p-header>
-    <div class="ui-helper-clearfix">
-        <div class="ui-g">
-            <div class="ui-g-12 ui-md-4">
-                <p-dropdown [options]="sortOptions" placeholder="Sort By" [style]="{'min-width':'140px'}"></p-dropdown>
-            </div>
-            <div class="ui-g-6 ui-md-4 filter-container">
-                <div style="position:relative">
-                    <button pButton type="button" icon="pi pi-search" class="ui-button-secondary"></button>
-                    <input type="search" pInputText placeholder="Search by name">
+<p-messages [showTransitionOptions]="'1000ms'" [value]="msgs"></p-messages>
+<h1 style="text-align: center;">Professors</h1>
+<p-dataView #dv [value]="profs" [paginator]="true" [sortField]="sortField" [sortOrder]="sortOrder" [rows]="10"
+    paginatorPosition="both" filterBy="name">
+    <p-header>
+        <div class="ui-helper-clearfix">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-4">
+                    <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
+                        (onChange)="onSortChange($event)" [style]="{'min-width':'140px'}">
+                    </p-dropdown>
+                </div>
+                <div class="ui-g-6 ui-md-4 filter-container">
+                    <div style="position:relative">
+                        <button pButton type="button" icon="pi pi-search" class="ui-button-secondary"
+                            [disabled]="true"></button>
+                        <input type="search" pInputText placeholder="Search by name"
+                            (input)="dv.filter($event.target.value)"> </div>
+                </div>
+                <div class="ui-g-6 ui-md-4" style="text-align:right">
+                    <button pButton type="button" (click)="showAddDialog()" label="ADD NEW" icon='pi pi-plus'
+                        class="ui-button-success"></button>
                 </div>
             </div>
         </div>
-    </div>
     </p-header>
     <ng-template let-prof pTemplate="listItem">
-        <div class="ui-g-12">
-            <div class="ui-g">
-                <div class="ui-g-12">name : <b>{{prof.name}}</b></div>
-                <div class="ui-g-12">rate : <b>{{prof.rate}}</b></div>
+        <div class="ui-g" style="vertical-align:middle;   text-align: center;border: 1px solid #ffffff;">
+
+            <div class="ui-g-12 ui-md-3">
+                <div *ngIf="prof.image">
+                    <a class="pointer" (click)="selectProf(prof)"><img src="assets/images/prof/{{prof.image}}.jpg"
+                            style="width:200px;" /></a>
+                </div>
+                <div *ngIf="!prof.image">
+                    <a class="pointer" (click)="selectProf(prof)"><img src="assets/images/prof/defaultProf.png"
+                            style="width:200px; height:265px" /></a>
+                </div>
+                <button pButton type="button" label="More Detail" (click)="selectProf(prof)" icon='pi pi-chevron-down'
+                    class="ui-button-secondary">
+                </button>
+            </div>
+            <div class="ui-g-12 ui-md-2 ui-g-nopad">
+                <div class="ui-g" style="text-align: left;">
+
+                    <div class="ui-g-12"><br /><i>Name:</i><br /><b>&nbsp;&nbsp;&nbsp;{{prof.name}}</b><br /></div>
+                    <div class="ui-g-12"><i>Rated by:</i> <br /><b>&nbsp;&nbsp;&nbsp;{{prof.rateCounter}}</b><br />
+                    </div>
+                    <div class="ui-g-12"><i>Comments:</i>
+                        <br /><b>&nbsp;&nbsp;&nbsp;{{prof.commentCounter}}</b><br /></div>
+                    <div class="ui-g-12"><i>Bio:</i><br /><b>&nbsp;&nbsp;&nbsp;There is no bio</b><br /></div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-2 ui-g-nopad">
+
+                <div class="ui-g-12">
+                    <br /><br /><br /><br /><br />
+                    <h5>Overall Rate</h5>
+                    <b>{{prof.overallR}}</b>
+                    <p-rating [ngModel]="prof.overallR" readonly="true" [cancel]="false" iconOnClass="pi pi-star"
+                        iconOffClass="pi pi-star-o" iconCancelClass="pi pi-times">;</p-rating>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-3 ui-g-nopad">
+                <div class="ui-g-12">
+                    <br />
+                    <span *ngIf="authService.isLoggedIn && authService.user.role === 'MODERATOR'">
+                        <br /><br />
+                    </span>
+                    <b>Helpfulness</b>
+                    <br />
+                    <b>{{prof.ratesByHelpfulness}}</b>
+                    <p-rating [ngModel]="prof.ratesByHelpfulness" [cancel]="false" readonly="true" iconOnClass="pi pi-star"
+                        iconOffClass="pi pi-star-o" iconCancelClass="pi pi-times">;</p-rating>
+                </div>
+                <div class="ui-g-12">
+                    <b>Preparedness</b>
+                    <br />
+                    <b>{{prof.ratesByPreparedness}}</b>
+                    <p-rating [ngModel]="prof.ratesByPreparedness" [cancel]="false" readonly="true" iconOnClass="pi pi-star"
+                        iconOffClass="pi pi-star-o" iconCancelClass="pi pi-times">;</p-rating>
+                </div>
+                <div class="ui-g-12">
+                    <b>Diction</b>
+                    <br />
+                    <b>{{prof.ratesByDiction}}</b>
+                    <p-rating [ngModel]="prof.ratesByDiction" [cancel]="false" readonly="true" iconOnClass="pi pi-star"
+                        iconOffClass="pi pi-star-o" iconCancelClass="pi pi-times">;</p-rating>
+                </div>
+            </div>
+            <div class="ui-g-12" style="text-align: right;">
+
+                <span *ngIf="authService.isLoggedIn && authService.user.role === 'MODERATOR'">
+
+                    <p-confirmDialog key="del" [style]="{width: '50vw'}"></p-confirmDialog>
+                    <button pButton type="button" label="DELETE" (click)="confirmDelete(prof)" icon='pi pi-times'
+                        class="ui-button-danger">
+                    </button>
+            </span>
+        </div>
+
+        </div>
+
+    </ng-template>
+</p-dataView>
+
+
+<p-dialog header="Prof Details" [(visible)]="displayWholeSubj" [style]="{width: '1000px'}" [responsive]="true"
+    showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+    <div class="ui-g" *ngIf="selectedProf">
+        <div class="ui-g-12 ui-md-8" style="text-align:center">
+            <img src="assets/images/subject/{{selectedProf.image}}.jpg" style="width: 400px;">
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <div class="ui-g" style="font-size: large;">
+                <div class="ui-g-12"><br /><i>Name:</i><br /><b>&nbsp;&nbsp;&nbsp;{{selectedProf.name}}</b><br />
+                </div>
+                <div class="ui-g-12"><i>Rated by:</i>
+                    <br /><b>&nbsp;&nbsp;&nbsp;{{selectedProf.rateCounter}}</b><br />
+                </div>
+                <div class="ui-g-12"><i>Comments:</i>
+                    <br /><b>&nbsp;&nbsp;&nbsp;{{selectedProf.commentCounter}}</b><br /></div>
+                <div class="ui-g-12"><i>Bio:</i><br /><b>&nbsp;&nbsp;&nbsp;There is no bio</b><br /></div>
+                <div class="ui-g-12"><i>Rates:</i>
+                    <br /><b>&nbsp;&nbsp;&nbsp;Helpfulness: </b><i> {{actualDiff}}</i><br />
+                    <p-rating [(ngModel)]="actualDiff" iconOnClass="pi pi-star" readonly="true" [cancel]="false"
+                        iconOffClass="pi pi-star-o" iconCancelClass="pi pi-times">;</p-rating>
+                </div>
+                <div class="ui-g-12">
+                    <b>&nbsp;&nbsp;&nbsp;Preparedness:</b><i> {{actualUsef}}</i>
+                    <p-rating [(ngModel)]="actualUsef" iconOnClass="pi pi-star" readonly="true" [cancel]="false"
+                        iconOffClass="pi pi-star-o" iconCancelClass="pi pi-times">;</p-rating>
+                </div>
+                <div class="ui-g-12">
+                    <b>&nbsp;&nbsp;&nbsp;Diction: </b> <i>{{actualCuri}}</i>
+                    <p-rating [(ngModel)]="actualCuri" iconOnClass="pi pi-star" readonly="true" [cancel]="false"
+                        iconOffClass="pi pi-star-o" iconCancelClass="pi pi-times">;</p-rating>
+                </div>
             </div>
         </div>
-    </ng-template>
+        <div class="ui-g-12">
+            <span *ngIf="authService.isLoggedIn">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <br />
+                        <h3>Rate this Professor</h3>
+                        <h5>Difficulty: {{DiffRateValue}}</h5>
+                        <p-rating [(ngModel)]="DiffRateValue" iconOnClass="pi pi-star" (onRate)="handleRate()"
+                            [cancel]="false" iconOffClass="pi pi-star-o" iconCancelClass="pi pi-times">;</p-rating>
+                    </div>
+                    <div class="ui-g-12">
+                        <h5>Usefulness: {{UsefRateValue}}</h5>
+                        <p-rating [(ngModel)]="UsefRateValue" iconOnClass="pi pi-star" (onRate)="handleRate()"
+                            [cancel]="false" iconOffClass="pi pi-star-o" iconCancelClass="pi pi-times">;</p-rating>
+                    </div>
+                    <div class="ui-g-12">
+                        <h5>Curiosity: {{CuriRateValue}}</h5>
+                        <p-rating [(ngModel)]="CuriRateValue" iconOnClass="pi pi-star" (onRate)="handleRate()"
+                            [cancel]="false" iconOffClass="pi pi-star-o" iconCancelClass="pi pi-times">;</p-rating>
+                    </div>
+                    <div class="ui-g-12">
+                        <button pButton type="button" (click)="rateSubject(selectedProf)" [disabled]="validRate"
+                            label="CONFIRM RATE" icon='pi pi-thumbs-up' class="ui-button-primary">
+                        </button>
+                    </div>
+                    <div class="ui-g-12">
+                        <h4>Leave a comment</h4>
+                        <h6>Feel free to share your opinion about him/her </h6>
+                        <textarea style="width: 800px;" [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize"
+                            [(ngModel)]="body"></textarea>
+
+                    </div>
+
+                    <div class="ui-g-12" style="text-align:right;"> <button pButton type="button" label="COMMENT"
+                            icon='pi pi-comment' class="ui-button-success"
+                            (click)="showAcceptComment(selectedProf,body)"></button>
+                    </div>
+                </div>
+            </span>
+            <span *ngIf="!authService.isLoggedIn">
+                <br />
+                <h4>If you'd like to write a comment or rate this Professor just <a [routerLink]="['/login']">log in</a>
+                </h4> <br />
+                <br />
+            </span>
+            <p-dataView #dv [value]="comments" [paginator]="true" [rows]="10" paginatorPosition="bottom">
+                <p-header>
+                    <h1> <i class="pi pi-comments"></i>
+                        Comments</h1>
+                </p-header>
+                <ng-template let-comment pTemplate="listItem">
+                    <div class="ui-g">
+                        <div class="ui-g-12">
+                            <p-panel header="{{comment.author}}">
+                                <div class="ui-g" style="vertical-align:middle;   text-align: left;">
+                                    <div class="ui-g-12">
+                                        {{comment.content}}
+                                    </div>
+
+                                    <div class="ui-g-12" style="text-align: right;">
+                                        <i>{{comment.likeCount}}</i>
+                                        <p-rating [(ngModel)]="CuriRateValue" stars="1" iconOnClass="pi pi-thumbs-up"
+                                            iconOffClass="pi pi-thumbs-up" [cancel]="false"></p-rating>
+
+                                    </div>
+                                </div>
+                            </p-panel>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataView>
+        </div>
+    </div>
+</p-dialog>
 
 
-</p-dataView>
+
+<p-dialog header="ADD NEW PROF" [(visible)]="displayAdd">
+    <div class="ui-g">
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-float-label">
+                    <input id="float-input" type="text" pInputText [(ngModel)]="name">
+                    <label for="float-input">Professor name*</label>
+                </span>
+            </div>
+        </div>
+  
+
+    </div>
+    <p-footer>
+        <button pButton type="button" label="SAVE" (click)="onAddClick(name,rate)" icon='pi pi-check'
+            class="ui-button-secondary"></button>
+        <button pButton type="button" label="CANCEL" (click)="displayAdd=false" icon='pi pi-times'
+            class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog [(visible)]="displayAcceptComment" header="Thank you" [modal]='true' [dismissableMask]="true"
+    [showHeader]="true">
+    <div *ngIf="validCommentBody">
+        <h5>We appreciate your feedback!</h5>
+    </div>
+    <div *ngIf="!validCommentBody">
+        <h5>First you have to write something to add a comment!</h5>
+    </div>
+
+</p-dialog>
+
+<p-dialog header="MODIFY PROF" [(visible)]="displayModify" [modal]='true' [dismissableMask]="true">
+    <div class="ui-g">
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-float-label">
+                    <input id="float3-input" type="text" pInputText [(ngModel)]="name">
+                    <label for="float3-input">Professor name</label>
+                </span>
+            </div>
+        </div>
+        <div class="ui-g-12 ">
+            <div class="ui-inputgroup">
+                <span class="ui-float-label">
+                    <input id="float4-input" type="text" pInputText [(ngModel)]="rate">
+                    <label for="float4-input">Professor rate</label>
+                </span>
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <button pButton type="button" label="SAVE" (click)="onModifyClick(name,rate)" icon='pi pi-check'
+            class="ui-button-secondary"></button>
+        <button pButton type="button" label="CANCEL" (click)="displayModify=false" icon='pi pi-times'
+            class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>

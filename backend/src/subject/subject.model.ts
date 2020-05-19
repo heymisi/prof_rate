@@ -3,21 +3,23 @@ import * as mongoose from 'mongoose';
 export const SubjectSchema = new mongoose.Schema({
   name: String,
   image: String,
-  rateOverallValue: Number,
-  rateOverallCounter: Number,
-  rateDifficulty: Number,
-  rateUsefulness: Number,
-  rateCuriosity: Number,
-  comments:[String]
+  rateCounter: Number,
+  commentCounter: Number,
+  ratesByDifficulty: [Number],
+  ratesByUsefulness: [Number],
+  ratesByCuriosity: [Number],
+  //comments: [String],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'comment' }],
 });
 export interface Subject extends mongoose.Document {
   id: string;
   name: string;
   image: string;
-  rateOverallValue: number;
-  rateOverallCounter: number;
-  rateDifficulty: number;
-  rateUsefulness: number;
-  rateCuriosity: number;
-  comments:[String]
+  rateCounter: number;
+  commentCounter: number;
+  ratesByDifficulty: [number];
+  ratesByUsefulness: [number];
+  ratesByCuriosity: [number];
+  //comments: [string];
+  comments: mongoose.Types.ObjectId[];
 }

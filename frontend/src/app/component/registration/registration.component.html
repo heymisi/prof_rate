@@ -1,0 +1,70 @@
+<h2 class="header">Sign up using your email address</h2>
+<div class="content">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="ui-inputgroup">
+                    <span class="ui-float-label"><input id="float-input" type="text" pInputText
+                            pTooltip="Enter your username" pInputText [(ngModel)]="username">
+                        <label for="float-input">Username*</label>
+                    </span>
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-inputgroup">
+                    <span class="ui-float-label"><input id="float-input" type="text" pInputText
+                            pTooltip="Enter your email addres" pInputText [(ngModel)]="email">
+                        <label for="float-input">Email*</label>
+                    </span>
+                </div>
+            </div>
+            <div class="ui-g-12 ">
+                <div class="ui-inputgroup">
+                    <span class="ui-float-label"><input id="float-input" type="text" pInputText
+                            pTooltip="Enter your email full name" pInputText [(ngModel)]="name">
+                        <label for="float-input">Name*</label>
+                    </span>
+                </div>
+            </div>
+            <div class="ui-g-12 ">
+                <div class="ui-inputgroup">
+                    <span class="ui-float-label"><input id="float-input"type="password" pPassword
+                            pTooltip="Enter a strong password" pInputText [(ngModel)]="password">
+                        <label for="float-input">Password*</label>
+
+                    </span>
+                </div>
+            </div>
+            <div class="ui-g-12 ">
+                <div class="ui-inputgroup">
+                    <span class="ui-float-label"><input id="float-input" type="password" pPassword>
+                        <label for="float-input">Password again*</label>
+
+                    </span>
+                </div>
+            </div>
+            <div class="ui-g-12 ">
+                <div class="ui-inputgroup">
+                    <p-dropdown [options]="unis" [(ngModel)]="selectedUnis" placeholder="Choose your university"
+                        [style]="{'width':'200px'}">
+                        <ng-template let-item pTemplate="selectedItem">
+                            <img src="assets/images/university/{{item.label}}.jpg"
+                                style="width:50px;vertical-align:middle" />
+                            <span style="vertical-align:middle">{{item.label}}</span>
+                        </ng-template>
+                        <ng-template let-uni pTemplate="item">
+                            <div class="ui-helper-clearfix" style="position: relative;height:25px;">
+                                <img src="assets/images/university/{{uni.label}}.jpg"
+                                    style="width:50px;position:absolute;" />
+                                <div style="font-size:14px;float:right;left:30px">{{uni.label}}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+            </div>
+            <button pButton type="button" icon='pi pi-user' label="JOIN RATEPROF"
+                (click)="registration(username,password,name,email)"
+                class="ui-button-raised ui-button-success"></button>
+        </div>
+    </div>
+</div>

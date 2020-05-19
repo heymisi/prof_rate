@@ -1,6 +1,6 @@
 <p-menubar [model]="items">
-    <b style="color : orange;  position: relative;  left: -80px; font-size:medium;">RateProf- Rate your professors, like
-        they're your dogs</b>
-    <button pButton type="button" label="Search"></button>
-    <input type="text" pInputText placeholder="Józsi"> <button pButton label="Logout" icon="pi pi-power-off"></button>
+    <b style="color : orange;  position: relative;  left: -80px; font-size:medium;">RateProf- Rate your professors, as you feel like</b>
+    <span *ngIf="authService.isLoggedIn">
+        <button pButton label="Logout" (click)="logout()" icon="pi pi-power-off"></button>
+    </span>
 </p-menubar>

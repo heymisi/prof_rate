@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { MenuItem } from "primeng/api";
+import { AuthService } from "src/app/service/auth.service";
 @Component({
   selector: "app-menu-bar",
   templateUrl: "./menu-bar.component.html",
@@ -8,10 +9,15 @@ import { MenuItem } from "primeng/api";
 export class MenuBarComponent implements OnInit {
   items: MenuItem[];
 
+  constructor(public authService: AuthService) {}
+
   ngOnInit() {
     this.items = [
-      { label: "Home", icon: "pi pi-fw pi-home", routerLink: ["/home"] },
-      { label: "Professors", icon: "pi pi-fw pi-user", routerLink: ["/profs"] },
+      {
+        label: "Professors",
+        icon: "pi pi-fw pi-user",
+        routerLink: ["/profs"],
+      },
       {
         label: "Subjects",
         icon: "pi pi-fw pi-bars",
@@ -23,5 +29,8 @@ export class MenuBarComponent implements OnInit {
         routerLink: ["/login"],
       },
     ];
+  }
+  logout() {
+    this.authService.logout();
   }
 }

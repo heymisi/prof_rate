@@ -3,17 +3,12 @@ import { SubjectComponent } from "./component/subject/subject.component";
 import { ProfComponent } from "./component/prof/prof.component";
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { HomeComponent } from "./component/home/home.component";
 
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "/home",
+    redirectTo: "/profs",
     pathMatch: "full",
-  },
-  {
-    path: "home",
-    component: HomeComponent,
   },
   {
     path: "profs",

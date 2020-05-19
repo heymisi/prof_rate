@@ -1,9 +1,7 @@
 import { Component } from "@angular/core";
 import { SelectItem } from "primeng/api";
-interface University {
-  name: string;
-  code: string;
-}
+import { Router } from "@angular/router";
+import { AuthService } from "src/app/service/auth.service";
 
 @Component({
   selector: "app-login",
@@ -11,26 +9,22 @@ interface University {
   styleUrls: ["./login.component.css"],
 })
 export class LoginComponent {
-  unis: SelectItem[];
-  selectedUnis: University[];
-  constructor() {
-    this.unis = [
-      {
-        label: "ELTE",
-        value: { id: 1, name: "EÖTVÖS LORÁND TUDOMÁNYEGYETEM", code: "ELTE" },
-      },
-      {
-        label: "SZTE",
-        value: { id: 2, name: "SZEGEDI TUDOMÁNY EGYETEM", code: "SZTE" },
-      },
-      {
-        label: "BME",
-        value: { id: 3, name: "BUDAPESTI MŰSZAKI EGYETEM", code: "BME" },
-      },
-      {
-        label: "BGE",
-        value: { id: 4, name: "BUDAPESTI GAZDASÁGI EGYETEM", code: "BGE" },
-      },
-    ];
+  username: string;
+  password: string;
+  message: string;
+  constructor(private authService: AuthService, private router: Router) {}
+  async onSubmit(username: string, password: string) {
+    try {
+      this.message = null;
+      await this.authService.login(username, password);
+      if (this.authService.redirectUrl) {
+        this.router.navigate([this.authService.redirectUrl]);
+      } else {
+        this.router.navigate(["/"]);
+      }
+    } catch (e) {
+      this.message = "Probáld újra";
+      console.log(this.message);
+    }
   }
 }

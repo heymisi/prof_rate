@@ -16,14 +16,9 @@ export class ProfController {
   @Post()
   async addProf(
     @Body('name') profName: string,
-    @Body('rate') profRate: number,
     @Body('subjects') subjects: string[],
   ) {
-    const newProf = await this.profService.insertProf(
-      profName,
-      profRate,
-      subjects,
-    );
+    const newProf = await this.profService.insertProf(profName, subjects);
     return newProf;
   }
 
@@ -42,16 +37,47 @@ export class ProfController {
   async updateProf(
     @Param('id') profId: string,
     @Body('name') profName: string,
-    @Body('rate') profRate: number,
     @Body('subjects') subjects: string[],
   ) {
-    await this.profService.updateProf(profId, profName, profRate, subjects);
+    await this.profService.updateProf(profId, profName, subjects);
     return null;
   }
 
   @Delete(':id')
   async removeProf(@Param('id') profId: string) {
     await this.profService.deleteProf(profId);
+    return null;
+  }
+
+  @Get(':id/comments')
+  getComments(@Param('id') profId: string) {
+    return this.profService.getComments(profId);
+  }
+
+  @Patch(':id/comments')
+  addNewComment(@Param('id') profId: string, @Body('comment') comment: string) {
+    this.profService.addComment(profId, comment);
+    return null;
+  }
+
+  @Get(':id/rating')
+  getRatings(@Param('id') profId: string) {
+    return this.profService.getRatings(profId);
+  }
+
+  @Patch(':id/rating')
+  async updateRating(
+    @Param('id') profId: string,
+    @Body('helpfulness') helpfulness: number,
+    @Body('preparedness') preparedness: number,
+    @Body('diction') diction: number,
+  ) {
+    await this.profService.updateRating(
+      profId,
+      helpfulness,
+      preparedness,
+      diction,
+    );
     return null;
   }
 }
